@@ -24,6 +24,8 @@ linters:
     enabled: true
   NameFormat:
     enabled: true
+  NestingDepth:
+    enabled: false
   PropertySortOrder:
     enabled: true
     order: concentric
