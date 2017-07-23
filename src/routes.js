@@ -1,21 +1,35 @@
 import React from 'react'
-import { Switch, Route, HashRouter as Router } from 'react-router-dom'
+import { RouterProvider } from 'react-router5'
+import createRouter from 'router5'
+import loggerPlugin from 'router5/plugins/logger'
+import browserPlugin from 'router5/plugins/browser'
 
 import * as components from './components'
 
 const {
-  App,
-  Home,
-  Page
+  App
 } = components
 
+const routes = [
+  { name: 'home', path: '/' },
+  { name: 'page', path: '/pages/:idx' }
+]
+
+export function configureRouter () {
+  const router =
+    createRouter(routes, {
+      defaultRoute: 'home'
+    })
+    .usePlugin(loggerPlugin)
+    .usePlugin(browserPlugin({
+      useHash: true
+    }))
+
+  return router
+}
+
 export default (
-  <Router>
-    <Switch>
-      <App>
-        <Route path="" component={Home} />
-        <Route path="/pages/:idx" component={Page} />
-      </App>
-    </Switch>
-  </Router>
+  <RouterProvider router={ configureRouter() }>
+    <App />
+  </RouterProvider>
 )
